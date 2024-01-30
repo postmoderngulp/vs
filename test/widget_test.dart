@@ -5,26 +5,114 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:vs1/entity/board.dart';
 
-import 'package:vs1/main.dart';
+import 'Queue.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('Изображение и текста из очереди извлекается правильно', () {
+    Queue queue = Queue(queue: [
+      board(
+          title: 'title1',
+          label: 'label1',
+          picture: 'picture1',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title2',
+          label: 'label2',
+          picture: 'picture2',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title3',
+          label: 'label3',
+          picture: 'picture3',
+          width: 300,
+          height: 150),
+    ]);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    board item = queue.extract();
+    expect(
+      item,
+      board(
+          title: 'title1',
+          label: 'label1',
+          picture: 'picture1',
+          width: 300,
+          height: 150),
+    );
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test('Корректное извлечение элементов из очереди ', () {
+    Queue queue = Queue(queue: [
+      board(
+          title: 'title1',
+          label: 'label1',
+          picture: 'picture1',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title2',
+          label: 'label2',
+          picture: 'picture2',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title3',
+          label: 'label3',
+          picture: 'picture3',
+          width: 300,
+          height: 150),
+    ]);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    queue.extract();
+    expect(queue.queue.length, 2);
+    String label = queue.buttonLabel();
+    expect(label, 'Next');
+  });
+
+  test(
+      'В случае, когда в очереди несколько картинок, устанавливается правильная надпись на кнопке.',
+      () {
+    Queue queue = Queue(queue: [
+      board(
+          title: 'title1',
+          label: 'label1',
+          picture: 'picture1',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title2',
+          label: 'label2',
+          picture: 'picture2',
+          width: 300,
+          height: 150),
+      board(
+          title: 'title3',
+          label: 'label3',
+          picture: 'picture3',
+          width: 300,
+          height: 150),
+    ]);
+    String label = queue.buttonLabel();
+    expect(label, 'Next');
+  });
+
+  test(
+      'Случай, когда очередь пустая, надпись на кнопке должна измениться на "Sing Up".',
+      () {
+    Queue queue = Queue(queue: []);
+    String label = queue.buttonLabel();
+    expect(label, 'Sign Up');
+  });
+
+  test(
+      'Если очередь пустая и пользователь нажал на кнопку “Sing in”, происходит открытие пустого экрана «Holder» приложения. ',
+      () {
+    Queue queue = Queue(queue: []);
+    String label = queue.goToHolder();
+    expect(label, 'Go');
   });
 }
