@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%201/board_model.dart';
 import 'package:vs1/entity/board.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class OnBoard extends StatelessWidget {
   const OnBoard({super.key});
@@ -53,6 +53,7 @@ class _OnBoardState extends State<SubOnBoard>
       end: 1.0,
     ).animate(_controller);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -137,6 +138,7 @@ class BoardItem extends StatelessWidget {
           width: 271.w,
           child: Text(
             Board.label,
+            style: fontStyle.labelBoard,
             textAlign: TextAlign.center,
           ),
         ),

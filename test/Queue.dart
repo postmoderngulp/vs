@@ -16,8 +16,4 @@ class Queue {
   String buttonLabel() {
     return queue.isEmpty ? 'Sign Up' : 'Next';
   }
-
-  String goToHolder() {
-    return queue.isEmpty ? 'Go' : 'NotGo';
-  }
 }

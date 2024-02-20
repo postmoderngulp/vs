@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%202/sign_up_model.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -25,9 +25,9 @@ class SubSignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
@@ -149,8 +149,9 @@ class GoogleAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SignUpModel>();
     return GestureDetector(
-      onTap: () {},
+      onTap: () => model.googleLogIn(context),
       child: Center(
         child: SvgPicture.asset(
           'assets/image/google.svg',
@@ -198,6 +199,7 @@ class Terms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<SignUpModel>();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,9 +228,13 @@ class Terms extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const PDFView(
-                        filePath:
-                            '/storage/emulated/0/Download/f6-tekhnicheskoe-opisanie (1) (1).pdf',
+                  builder: (context) => PDFView(
+                        enableSwipe: true,
+                        swipeHorizontal: true,
+                        autoSpacing: false,
+                        pageFling: true,
+                        pageSnap: true,
+                        filePath: model.pdfPath,
                       )),
             ),
             child: RichText(
@@ -259,24 +265,28 @@ class SignUpButton extends StatelessWidget {
         width: 342.w,
         height: 46.h,
         child: ElevatedButton(
-          onPressed: () => model.emailValid &&
+          onPressed: () => model.emailValid != null &&
+                  model.emailValid == true &&
                   model.nameValid &&
                   model.numberValid &&
                   model.passwordValid &&
                   model.repeatValid &&
                   model.isChecked
-              ? model.goToLogIn(context)
+              ? model.signUp(model.name, model.email, model.password,
+                  model.number, context)
               : null,
           style: ButtonStyle(
               elevation: const MaterialStatePropertyAll(0),
-              backgroundColor: MaterialStatePropertyAll(model.emailValid &&
-                      model.nameValid &&
-                      model.numberValid &&
-                      model.passwordValid &&
-                      model.repeatValid &&
-                      model.isChecked
-                  ? colors.main
-                  : colors.gray2),
+              backgroundColor: MaterialStatePropertyAll(
+                  model.emailValid != null &&
+                          model.emailValid == true &&
+                          model.nameValid &&
+                          model.numberValid &&
+                          model.passwordValid &&
+                          model.repeatValid &&
+                          model.isChecked
+                      ? colors.main
+                      : colors.gray2),
               shape: const MaterialStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4.69))))),
           child: Text(
@@ -297,7 +307,7 @@ class NameField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         keyboardType: TextInputType.text,
         onChanged: (value) {
@@ -349,7 +359,7 @@ class PhoneField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         keyboardType: TextInputType.number,
         onChanged: (value) {
@@ -401,7 +411,7 @@ class EmailField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         keyboardType: TextInputType.emailAddress,
         onChanged: (value) {
@@ -413,28 +423,44 @@ class EmailField extends StatelessWidget {
           contentPadding:
               EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
           hintStyle: fontStyle.hint,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+          border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(
-              color: colors.gray2,
+              color: model.emailValid != null && model.emailValid == true
+                  ? colors.gray2
+                  : model.emailValid != null && model.emailValid == false
+                      ? colors.error
+                      : colors.gray2,
             ),
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(
-              color: colors.gray2,
+              color: model.emailValid != null && model.emailValid == true
+                  ? colors.gray2
+                  : model.emailValid != null && model.emailValid == false
+                      ? colors.error
+                      : colors.gray2,
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(
-              color: colors.gray2,
+              color: model.emailValid != null && model.emailValid == true
+                  ? colors.gray2
+                  : model.emailValid != null && model.emailValid == false
+                      ? colors.error
+                      : colors.gray2,
             ),
           ),
-          errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+          errorBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
             borderSide: BorderSide(
-              color: colors.gray2,
+              color: model.emailValid != null && model.emailValid == true
+                  ? colors.gray2
+                  : model.emailValid != null && model.emailValid == false
+                      ? colors.error
+                      : colors.gray2,
             ),
           ),
         ),
@@ -453,7 +479,7 @@ class PasswordField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         onChanged: (value) {
           model.password = value;
@@ -516,7 +542,7 @@ class ConfirmPasswordField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         obscureText: model.isObscureConfirm,
         onChanged: (value) {

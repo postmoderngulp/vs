@@ -5,9 +5,11 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vs1/entity/board.dart';
-
+import 'package:vs1/main.dart';
+import 'package:vs1/repository/queue_save.dart';
 import 'Queue.dart';
 
 void main() {
@@ -101,18 +103,31 @@ void main() {
   });
 
   test(
-      'Случай, когда очередь пустая, надпись на кнопке должна измениться на "Sing Up".',
+      'Случай, когда очередь пустая, надпись на кнопке должна измениться на "Sign Up".',
       () {
     Queue queue = Queue(queue: []);
     String label = queue.buttonLabel();
     expect(label, 'Sign Up');
   });
 
-  test(
-      'Если очередь пустая и пользователь нажал на кнопку “Sing in”, происходит открытие пустого экрана «Holder» приложения. ',
-      () {
-    Queue queue = Queue(queue: []);
-    String label = queue.goToHolder();
-    expect(label, 'Go');
+  testWidgets(
+      'Если очередь пустая и пользователь нажал на кнопку “Sign in”, происходит открытие пустого экрана «Holder» приложения. ',
+      (WidgetTester tester) async {
+    Queue queue = Queue(queue: [
+      board(
+        title: 'Real-time Tracking',
+        label:
+            'Track your packages/items from the comfort of your home till final destination',
+        picture: 'third_board',
+        width: 400,
+        height: 298,
+      )
+    ]);
+    QueueSave queueSave = QueueSave();
+    await queueSave.load([queue.queue.first.toJson()], 'queue');
+    await tester.pumpWidget(const MyApp());
+    await tester.tap(find.byKey(const Key('Sign Up')));
+    await tester.pump();
+    expect(find.text('Create an account'), findsOneWidget);
   });
 }

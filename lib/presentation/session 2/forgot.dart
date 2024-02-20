@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%202/forgot_model.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class Forgot extends StatelessWidget {
   const Forgot({super.key});
@@ -26,6 +26,7 @@ class SubForgot extends StatelessWidget {
       color: Colors.white,
       child: SafeArea(
           child: Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
@@ -137,7 +138,7 @@ class EmailField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         keyboardType: TextInputType.emailAddress,
         onChanged: (value) {

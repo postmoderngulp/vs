@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vs1/navigation/navigate.dart';
+import 'package:vs1/presentation/navigation/navigate.dart';
 
 class ForgotModel extends ChangeNotifier {
   String email = '';
@@ -17,4 +17,9 @@ class ForgotModel extends ChangeNotifier {
   void goToLogIn(BuildContext context) {
     Navigator.of(context).pop();
   }
+
+  // void forgot(String email) {
+  //   SupaBaseService service = SupaBaseService();
+  //   service.forgotPassword(email);
+  // }
 }

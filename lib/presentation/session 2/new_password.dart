@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%202/new_password_model.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class NewPassword extends StatelessWidget {
   const NewPassword({super.key});
@@ -27,6 +27,7 @@ class SubNewPassword extends StatelessWidget {
       color: Colors.white,
       child: SafeArea(
           child: Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
@@ -93,7 +94,7 @@ class PasswordField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         onChanged: (value) {
           model.password = value;
@@ -156,7 +157,7 @@ class ConfirmPasswordField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         obscureText: model.isObscureConfirm,
         onChanged: (value) {
@@ -220,7 +221,7 @@ class LoginButton extends StatelessWidget {
         height: 46.h,
         child: ElevatedButton(
           onPressed: () => model.passwordValid && model.repeatValid
-              ? model.goToHome(context)
+              ? model.newPassword(model.password, context)
               : null,
           style: ButtonStyle(
               elevation: const MaterialStatePropertyAll(0),

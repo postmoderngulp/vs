@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%202/otp_verify_model.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class OtpVerify extends StatelessWidget {
   const OtpVerify({super.key});
@@ -24,6 +24,7 @@ class SubOtpVerify extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(

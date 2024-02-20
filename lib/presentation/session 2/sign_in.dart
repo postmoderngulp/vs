@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:vs1/domain/session%202/sign_in_model.dart';
-import 'package:vs1/style/colors.dart';
-import 'package:vs1/style/fontStyle.dart';
+import 'package:vs1/presentation/style/colors.dart';
+import 'package:vs1/presentation/style/fontStyle.dart';
 
 class SignInWidget extends StatelessWidget {
   const SignInWidget({super.key});
@@ -25,6 +25,7 @@ class SubSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -140,8 +141,9 @@ class GoogleAuth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<SignInModel>();
     return GestureDetector(
-      onTap: () {},
+      onTap: () => model.googleLogIn(context),
       child: Center(
         child: SvgPicture.asset(
           'assets/image/google.svg',
@@ -172,8 +174,8 @@ class ForgotPassword extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2)),
               activeColor: colors.main,
               checkColor: Colors.white,
-              value: model.isChecked,
-              onChanged: (val) {}),
+              value: model.isSaved,
+              onChanged: (val) => model.setCheck()),
         ),
         SizedBox(
           width: 4.w,
@@ -204,7 +206,7 @@ class PasswordField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         onChanged: (value) {
           model.password = value;
@@ -268,7 +270,7 @@ class LoginButton extends StatelessWidget {
         height: 46.h,
         child: ElevatedButton(
           onPressed: () => model.emailValid && model.passwordValid
-              ? model.goToHome(context)
+              ? model.signIn(model.email, model.password, context)
               : null,
           style: ButtonStyle(
               elevation: const MaterialStatePropertyAll(0),
@@ -296,7 +298,7 @@ class EmailField extends StatelessWidget {
       width: 342.w,
       height: 44.h,
       child: TextField(
-        showCursor: false,
+        cursorColor: colors.main,
         style: fontStyle.field,
         keyboardType: TextInputType.emailAddress,
         onChanged: (value) {

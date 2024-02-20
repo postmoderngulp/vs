@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:vs1/navigation/navigate.dart';
+import 'package:vs1/presentation/navigation/navigate.dart';
 
 class OtpVerifyModel extends ChangeNotifier {
   String _otpCode = '';

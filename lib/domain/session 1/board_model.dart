@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:vs1/entity/board.dart';
-import 'package:vs1/navigation/navigate.dart';
+import 'package:vs1/presentation/navigation/navigate.dart';
 import 'package:vs1/repository/queue_save.dart';
 
 class BoardModel extends ChangeNotifier {
@@ -27,7 +28,7 @@ class BoardModel extends ChangeNotifier {
   }
 
   void _setupList(BuildContext context) async {
-    final List<String>? items = await _queueSave.unLoad();
+    final List<String>? items = await _queueSave.unLoad('queue');
     if (items == null) {
       List<board> listBoard = [
         board(
@@ -58,12 +59,17 @@ class BoardModel extends ChangeNotifier {
       for (var element in listBoard) {
         list.add(element.toJson());
       }
-      _queueSave.load(list);
+      _queueSave.load(list, 'queue');
       _setupList(context);
     }
     if (items != null) {
       if (items.isEmpty) {
-        goToHolder(context);
+        final supabase = Supabase.instance.client;
+        Session? session = supabase.auth.currentSession;
+
+        bool val = false;
+        session != null ? val = true : val = false;
+        val ? goToHome(context) : goToHolder(context);
         return;
       }
       item = board.fromJson(items.first);
@@ -71,7 +77,7 @@ class BoardModel extends ChangeNotifier {
       if (items.isEmpty) {
         queueEmpty = true;
       }
-      _queueSave.load(items);
+      _queueSave.load(items, 'queue');
       // for (int i = 0; i < items.length; i++) {
       //   listBoard.add(board.fromJson(items[i]));
       // }
@@ -81,15 +87,15 @@ class BoardModel extends ChangeNotifier {
 
   void skip(BuildContext context) async {
     // listBoard.clear();
-    _queueSave.load([]);
+    _queueSave.load([], 'queue');
     goToHolder(context);
   }
 
   void next() async {
-    final List<String>? items = await _queueSave.unLoad();
+    final List<String>? items = await _queueSave.unLoad('queue');
     item = board.fromJson(items!.first);
     items.removeWhere((element) => element == items.first);
-    _queueSave.load(items);
+    _queueSave.load(items, 'queue');
     if (items.isEmpty) {
       queueEmpty = true;
     }
@@ -111,6 +117,11 @@ class BoardModel extends ChangeNotifier {
   void goToHolder(BuildContext context) {
     Navigator.of(context)
         .pushNamedAndRemoveUntil(NavigateRoute.signUp, (route) => false);
+  }
+
+  void goToHome(BuildContext context) {
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(NavigateRoute.home, (route) => false);
   }
 
   void remove() async {

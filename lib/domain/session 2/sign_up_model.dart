@@ -1,5 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:vs1/navigation/navigate.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:vs1/presentation/navigation/navigate.dart';
+import 'package:path/path.dart' as path;
+import 'package:vs1/repository/supabase_service.dart';
 
 class SignUpModel extends ChangeNotifier {
   String name = '';
@@ -7,10 +12,11 @@ class SignUpModel extends ChangeNotifier {
   String email = '';
   String password = '';
   String repeatPassword = '';
+  String pdfPath = '';
 
   bool nameValid = false;
   bool numberValid = false;
-  bool emailValid = false;
+  bool? emailValid;
   bool passwordValid = false;
   bool repeatValid = false;
 
@@ -18,9 +24,49 @@ class SignUpModel extends ChangeNotifier {
   bool isObscurePassword = true;
   bool isObscureConfirm = true;
 
+  SignUpModel() {
+    _setup();
+  }
+
+  Future<void> _setup() async {
+    ByteData byteData = await rootBundle.load('assets/pdf.pdf');
+    String fileName = 'pdf.pdf';
+
+    // Get the application documents directory
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+
+    // Create a new file in the documents directory
+    File file = File(path.join(appDocDir.path, fileName));
+
+    // Write the byte data to the file
+    await file.writeAsBytes(byteData.buffer.asUint8List());
+
+    // Get the path to the file
+    pdfPath = file.path;
+    notifyListeners();
+  }
+
+  void googleLogIn(BuildContext context) async {
+    SupaBaseService service = SupaBaseService();
+    await service.googleSignIn();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(NavigateRoute.home, (route) => false);
+  }
+
   void setName() {
     nameValid = name.length >= 4 ? true : false;
     notifyListeners();
+  }
+
+  void signUp(String name, String email, String password, String number,
+      BuildContext context) {
+    try {
+      SupaBaseService service = SupaBaseService();
+      service.signUp(name, email, password, number);
+      goToLogIn(context);
+    } catch (error) {
+      print(error);
+    }
   }
 
   void setNumber() {
