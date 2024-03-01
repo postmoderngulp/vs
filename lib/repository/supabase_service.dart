@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,7 +16,7 @@ import 'package:vs1/entity/stage.dart';
 class SupaBaseService {
   final supabase = Supabase.instance.client;
 
-  void signUp(
+  Future<void> signUp(
     String name,
     String email,
     String password,
@@ -36,7 +37,7 @@ class SupaBaseService {
             }));
   }
 
-  void signIn(
+  Future<void> signIn(
     String email,
     String password,
   ) async {
@@ -48,19 +49,19 @@ class SupaBaseService {
     final User? user = response.user;
   }
 
-  void forgotPassword(String email) async {
+  Future<void> forgotPassword(String email) async {
     supabase.auth.resetPasswordForEmail(email);
   }
 
-  void newPassword(String password) async {
+  Future<void> newPassword(String password) async {
     await supabase.auth.updateUser(UserAttributes(password: password));
   }
 
-  void logOut() async {
+  Future<void> logOut() async {
     await supabase.auth.signOut();
   }
 
-  void sendFeedback(String body, int stars) async {
+  Future<void> sendFeedback(String body, int stars) async {
     await supabase.from('feedback').insert({
       'body': body,
       'stars': stars,
@@ -95,6 +96,15 @@ class SupaBaseService {
     );
   }
 
+  Future<void> closePackage() async {
+    await supabase
+        .from('package')
+        .delete()
+        .filter('id_user', 'eq', supabase.auth.currentSession?.user.id)
+        .order('created_at', ascending: false)
+        .limit(1);
+  }
+
   Future<Profile> getProfile() async {
     final val = await supabase
         .from('profile')
@@ -119,8 +129,8 @@ class SupaBaseService {
         transactions: maps != null ? list : []);
   }
 
-  void makePayment(PackageInfo packageInfo, String code, MyLocation myLocation,
-      double price, String time) async {
+  Future<void> makePayment(PackageInfo packageInfo, String code,
+      MyLocation myLocation, double price, String time) async {
     await supabase.from('package').insert({
       'stage': Stage(
           stage: 'stage1',
@@ -141,7 +151,7 @@ class SupaBaseService {
     }).eq('user_id', supabase.auth.currentSession!.user.id);
   }
 
-  void addTransaction(
+  Future<void> addTransaction(
     String date,
     double price,
     String body,
@@ -162,12 +172,12 @@ class SupaBaseService {
         'user_id', supabase.auth.currentSession!.user.id);
   }
 
-  void sendMessage(String msg, String interlocutorId) async {
+  Future<void> sendMessage(String msg, String interlocutorId) async {
     await supabase.from('message').insert({
       'content': msg,
       'userTo': interlocutorId,
       'userFrom': supabase.auth.currentSession!.user.id,
-      'isRead': true
+      'isRead': false
     });
   }
 
@@ -209,6 +219,32 @@ class SupaBaseService {
     return profiles;
   }
 
+  Future<List<Profile>> getClientProfiles() async {
+    final val = await supabase
+        .from('profile')
+        .select()
+        .not('user_id', 'eq', supabase.auth.currentSession!.user.id)
+        .eq('role', 'client');
+    List<Profile> profiles = [];
+    for (int i = 0; i < val.length; i++) {
+      profiles.add(Profile.fromMap(val[i]));
+    }
+    return profiles;
+  }
+
+  Future<List<Profile>> getCourierProfiles() async {
+    final val = await supabase
+        .from('profile')
+        .select()
+        .not('user_id', 'eq', supabase.auth.currentSession!.user.id)
+        .eq('role', 'courier');
+    List<Profile> profiles = [];
+    for (int i = 0; i < val.length; i++) {
+      profiles.add(Profile.fromMap(val[i]));
+    }
+    return profiles;
+  }
+
   Stream<List<Message>> getMessages(String id) {
     return supabase
         .from('message')
@@ -218,13 +254,48 @@ class SupaBaseService {
         .map((event) => (event.map((e) => Message.fromMap(e))).toList());
   }
 
+  Stream<List<Message>> getAllMessages() {
+    return supabase
+        .from('message')
+        .stream(primaryKey: ['id'])
+        .order('created_at', ascending: true)
+        .map((event) => (event.map((e) => Message.fromMap(e))).toList());
+  }
+
+  Future<void> makeRead(int id) async {
+    await supabase.from('message').update({'isRead': true}).eq('id', id);
+  }
+
+  Future<void> upLoadImage(String path, Uint8List bytes) async {
+    await supabase.storage.from('avatars').uploadBinary(path, bytes);
+  }
+
+  Future<void> upDateImage(String path, Uint8List bytes) async {
+    await supabase.storage.from('avatars').updateBinary(path, bytes);
+  }
+
+  Future<Uint8List> downloadImage(String path) async {
+    final bytes = await supabase.storage.from('avatars').download(path);
+    return bytes;
+  }
+
+  Future<Uint8List> getImage(String path) async {
+    final bytes = await supabase.storage.from('adds').download(path);
+    return bytes;
+  }
+
+  Future<List<FileObject>> downloadImages() async {
+    final bytes = await supabase.storage.from('adds').list();
+    return bytes;
+  }
+
   Stream<List<Stage>> getLastPackage() {
     return supabase
         .from('package')
-        .stream(primaryKey: ['id'])
+        .stream(primaryKey: ['stage'])
         .eq('id_user', supabase.auth.currentSession!.user.id)
         .order('created_at')
-        .map((event) =>
-            (event.map((e) => Stage.fromMap(jsonDecode(e['stage'])))).toList());
+        .map(
+            (event) => (event.map((e) => Stage.fromJson(e['stage'])).toList()));
   }
 }

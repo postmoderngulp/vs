@@ -45,11 +45,13 @@ class Profile {
       name: map['name'] as String,
       balance: map['balance'] as int,
       role: map['role'] as String,
-      transactions: map['transactions'] == null  ? [] : List<TransactionHistory>.from(
-        (map['transactions'] as List<dynamic>).map<TransactionHistory>(
-          (x) => TransactionHistory.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      transactions: map['transactions'] == null
+          ? []
+          : List<TransactionHistory>.from(
+              (map['transactions'] as List<dynamic>).map<TransactionHistory>(
+                (x) => TransactionHistory.fromMap(x as Map<String, dynamic>),
+              ),
+            ),
     );
   }
 

@@ -1,0 +1,2000 @@
+@startuml
+set namespaceSeparator ::
+
+class "vs1::domain::session%201::board_model.dart::BoardModel" {
+  -QueueSave _queueSave
+  +board item
+  +bool queueEmpty
+  -void _setup()
+  -void _setupList()
+  +void skip()
+  +void next()
+  +void signUp()
+  +void goToHolder()
+  +void goToHome()
+  +void remove()
+}
+
+"vs1::domain::session%201::board_model.dart::BoardModel" o-- "vs1::repository::queue_save.dart::QueueSave"
+"vs1::domain::session%201::board_model.dart::BoardModel" o-- "vs1::entity::board.dart::board"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%201::board_model.dart::BoardModel"
+
+class "vs1::domain::session%202::forgot_model.dart::ForgotModel" {
+  +String email
+  +bool emailValid
+  +void setEmail()
+  +void goToOtp()
+  +void goToLogIn()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%202::forgot_model.dart::ForgotModel"
+
+class "vs1::domain::session%202::new_password_model.dart::NewPasswordModel" {
+  +String password
+  +String repeatPassword
+  +bool passwordValid
+  +bool repeatValid
+  +bool isObscurePassword
+  +bool isObscureConfirm
+  +void setObscurePassword()
+  +void setObscureConfirm()
+  +void setPassword()
+  +void setRepeatPassword()
+  +void goToHome()
+  +void newPassword()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%202::new_password_model.dart::NewPasswordModel"
+
+class "vs1::domain::session%202::otp_verify_model.dart::OtpVerifyModel" {
+  -String _otpCode
+  +bool codeValid
+  +List<String> otpList
+  +Timer timer
+  +int time
+  +void countTime()
+  +void resend()
+  +void setCode()
+  +void goToNewPassword()
+}
+
+"vs1::domain::session%202::otp_verify_model.dart::OtpVerifyModel" o-- "dart::async::Timer"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%202::otp_verify_model.dart::OtpVerifyModel"
+
+class "vs1::domain::session%202::sign_in_model.dart::SignInModel" {
+  +String email
+  +String password
+  +bool emailValid
+  +bool isSaved
+  +bool passwordValid
+  +bool isObscurePassword
+  +void setEmail()
+  +void signIn()
+  +void googleLogIn()
+  +void setPassword()
+  +void setObscurePassword()
+  +void goToHome()
+  +void goToSignUp()
+  +void goToForgot()
+  -void _setupCheck()
+  +void setCheck()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%202::sign_in_model.dart::SignInModel"
+
+class "vs1::domain::session%202::sign_up_model.dart::SignUpModel" {
+  +String name
+  +String number
+  +String email
+  +String password
+  +String repeatPassword
+  +String pdfPath
+  +bool nameValid
+  +bool numberValid
+  +bool? emailValid
+  +bool passwordValid
+  +bool repeatValid
+  +bool isChecked
+  +bool isObscurePassword
+  +bool isObscureConfirm
+  -dynamic _setup()
+  +void googleLogIn()
+  +void setName()
+  +void signUp()
+  +void setNumber()
+  +void setEmail()
+  +void setPassword()
+  +void setRepeatPassword()
+  +void setCheck()
+  +void setObscurePassword()
+  +void setObscureConfirm()
+  +void goToLogIn()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%202::sign_up_model.dart::SignUpModel"
+
+class "vs1::domain::session%203::profile_page_model.dart::ProfileModel" {
+  +Profile? profile
+  +Uint8List? image
+  +List<Service> services
+  +bool isObscureBalance
+  +bool saveVal
+  -void _setup()
+  +void uploadImage()
+  +void downloadImage()
+  +void setObscureBalance()
+  +void logOut()
+  +void setVal()
+  +void GoToService()
+  +void getThemeVal()
+  +void GoToLogIn()
+}
+
+"vs1::domain::session%203::profile_page_model.dart::ProfileModel" o-- "vs1::entity::profile.dart::Profile"
+"vs1::domain::session%203::profile_page_model.dart::ProfileModel" o-- "dart::typed_data::Uint8List"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%203::profile_page_model.dart::ProfileModel"
+
+class "vs1::domain::session%203::send_info_model.dart::SendInfoModel" {
+  +double total
+  +int deliveryCharges
+  +int instantDelivery
+  +double tax
+  -QueueSave _queueSave
+  +PackageInfo packageInfo
+  -void _setup()
+  -void _count()
+  +void makePayment()
+  +dynamic countPosition()
+  +void goToEdit()
+  +void goToTransaction()
+}
+
+"vs1::domain::session%203::send_info_model.dart::SendInfoModel" o-- "vs1::repository::queue_save.dart::QueueSave"
+"vs1::domain::session%203::send_info_model.dart::SendInfoModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%203::send_info_model.dart::SendInfoModel"
+
+class "vs1::domain::session%203::send_model.dart::SendModel" {
+  +PackageInfo packageInfo
+  +void goToSendInfo()
+  +void addDestination()
+}
+
+"vs1::domain::session%203::send_model.dart::SendModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%203::send_model.dart::SendModel"
+
+class "vs1::domain::session%203::transaction_model.dart::TransactionModel" {
+  +double turns
+  +int time
+  +String uuid
+  -void _setup()
+  +void goTrack()
+  -void _changeRotation()
+  +void goToHome()
+  +void getCode()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%203::transaction_model.dart::TransactionModel"
+
+class "vs1::domain::session%204::check_info_model.dart::CheckInfoModel" {
+  +PackageInfo? packageInfo
+  +String uuid
+  +double total
+  +int deliveryCharges
+  +int instantDelivery
+  +double tax
+  -void _setup()
+  +void getPackage()
+  -void _count()
+  +void goToSuccess()
+}
+
+"vs1::domain::session%204::check_info_model.dart::CheckInfoModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%204::check_info_model.dart::CheckInfoModel"
+
+class "vs1::domain::session%204::payment_model.dart::PaymentModel" {
+  +int currentVal
+  +int currentCardVal
+  +void setVal()
+  +void setCardVal()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%204::payment_model.dart::PaymentModel"
+
+class "vs1::domain::session%204::success_delivery_model.dart::SuccessDeliveryModel" {
+  +String body
+  +double turns
+  +List<bool> stars
+  +int time
+  +void setStar()
+  +void deleteStar()
+  +void sendFeedback()
+  -void _setup()
+  -void _changeRotation()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%204::success_delivery_model.dart::SuccessDeliveryModel"
+
+class "vs1::domain::session%204::track_model.dart::TrackModel" {
+  +Completer<YandexMapController> mapController
+  +bool isTrack
+  +String uuid
+  +List<PlacemarkMapObject> placemarks
+  +Stream<List<Stage>>? stream
+  +MyPackage? packageInfo
+  -void _setup()
+  +void getPackage()
+  +Stream<List<Stage>> getStream()
+  -void _setupCash()
+  -void _setupMap()
+  +void goToCheckInfo()
+}
+
+"vs1::domain::session%204::track_model.dart::TrackModel" o-- "dart::async::Completer<YandexMapController>"
+"vs1::domain::session%204::track_model.dart::TrackModel" o-- "dart::async::Stream<List<Stage>>"
+"vs1::domain::session%204::track_model.dart::TrackModel" o-- "vs1::entity::my_package.dart::MyPackage"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%204::track_model.dart::TrackModel"
+
+class "vs1::domain::session%204::wallet_model.dart::WalletModel" {
+  +Profile? profile
+  +List<TransactionClass> transactions
+  +bool isObscureBalance
+  +List<TransactionHistory> history
+  +void setObscureBalance()
+  +void goToPayment()
+  -void _setup()
+}
+
+"vs1::domain::session%204::wallet_model.dart::WalletModel" o-- "vs1::entity::profile.dart::Profile"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%204::wallet_model.dart::WalletModel"
+
+class "vs1::domain::session%205::call_rider_model.dart::CallRiderModel" {
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%205::call_rider_model.dart::CallRiderModel"
+
+class "vs1::domain::session%205::chats_model.dart::ChatsModel" {
+  +List<Profile> users
+  -List<Profile> _users
+  -void _setup()
+  +List<Message> filterChat()
+  +int countRead()
+  +Stream<List<Message>> getMessages()
+  +void searchChat()
+  +void goToChatRider()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%205::chats_model.dart::ChatsModel"
+
+class "vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel" {
+  +Profile profile
+  +Stream<List<Message>>? stream
+  +String msg
+  +TextEditingController controller
+  +ScrollController scrollController
+  +bool hasText
+  -void _setup()
+  +void setRead()
+  +void checkText()
+  +void sendMessage()
+  +Stream<List<Message>> getMessage()
+  +List<Message> filterChat()
+  +void goToCall()
+}
+
+"vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel" o-- "vs1::entity::profile.dart::Profile"
+"vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel" o-- "dart::async::Stream<List<Message>>"
+"vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%205::chat_rider_model.dart::ChatRiderModel"
+
+class "vs1::domain::session%205::home_model.dart::HomeModel" {
+  +List<String> routes
+  +String name
+  +int val
+  +Uint8List? image
+  +List<card> cards
+  -void _setup()
+  +void downloadImage()
+  +void setVal()
+  +void goToScreen()
+}
+
+"vs1::domain::session%205::home_model.dart::HomeModel" o-- "dart::typed_data::Uint8List"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::session%205::home_model.dart::HomeModel"
+
+class "vs1::entity::board.dart::board" {
+  +String title
+  +String label
+  +String picture
+  +double width
+  +double height
+  +int hashCode
+  +Map<String, dynamic> toMap()
+  +String toJson()
+  +bool ==()
+}
+
+class "vs1::entity::card.dart::card" {
+  +String picture
+  +String title
+  +String label
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::entity::card.dart::card"
+
+class "vs1::entity::details.dart::Details" {
+  +String address
+  +String state
+  +String number
+  +String others
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::history.dart::TransactionHistory" {
+  +String price
+  +String created_at
+  +String date
+  +String body
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::location.dart::MyLocation" {
+  +OriginLocate location
+  +List<OriginLocate> locations
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::location.dart::MyLocation" o-- "vs1::entity::origin_locate.dart::OriginLocate"
+
+class "vs1::entity::message.dart::Message" {
+  +int id
+  +String created_at
+  +String content
+  +String userTo
+  +String userFrom
+  +bool isRead
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::my_package.dart::MyPackage" {
+  +Stage stage
+  +int id
+  +String created_at
+  +Details origin_details
+  +List<Details> destination_details
+  +PackageDetails package_details
+  +String uuid
+  +String id_user
+  +MyLocation coordinat
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::stage.dart::Stage"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::details.dart::Details"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::package.dart::PackageDetails"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::location.dart::MyLocation"
+
+class "vs1::entity::origin_locate.dart::OriginLocate" {
+  +double lat
+  +double long
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::package.dart::PackageDetails" {
+  +String items
+  +String weight
+  +String worthItems
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::package_info.dart::PackageInfo" {
+  +Details originDetail
+  +List<Details> destinationDetails
+  +PackageDetails package
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::package_info.dart::PackageInfo" o-- "vs1::entity::details.dart::Details"
+"vs1::entity::package_info.dart::PackageInfo" o-- "vs1::entity::package.dart::PackageDetails"
+
+class "vs1::entity::profile.dart::Profile" {
+  +int id
+  +String created_at
+  +String user_id
+  +String phone
+  +String name
+  +int balance
+  +String role
+  +List<TransactionHistory> transactions
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::service.dart::Service" {
+  +String picture
+  +String title
+  +String label
+  +String path
+}
+
+class "vs1::entity::stage.dart::Stage" {
+  +String stage
+  +String stage1Time
+  +String stage2Time
+  +String stage3Time
+  +String stage4Time
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::transaction.dart::TransactionClass" {
+  +double price
+  +String delivery
+  +String date
+}
+
+class "vs1::main.dart::MyApp" {
+  +State<MyApp> createState()
+  {static} +_MyAppState of()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "vs1::main.dart::MyApp"
+
+class "vs1::main.dart::_MyAppState" {
+  -ThemeMode _themeMode
+  +void getTheme()
+  +void changeTheme()
+  +void initState()
+  +Widget build()
+}
+
+"vs1::main.dart::_MyAppState" o-- "flutter::src::material::app.dart::ThemeMode"
+"flutter::src::widgets::framework.dart::State" <|-- "vs1::main.dart::_MyAppState"
+
+abstract class "vs1::presentation::navigation::navigate.dart::NavigateRoute" {
+  {static} +String initial
+  {static} +String signUp
+  {static} +String pdf
+  {static} +String signIn
+  {static} +String forgot
+  {static} +String otp
+  {static} +String newPassword
+  {static} +String home
+  {static} +String checkInfo
+  {static} +String successDelivery
+  {static} +String payment
+  {static} +String notification
+  {static} +String send
+  {static} +String chats
+  {static} +String call
+  {static} +String chatRider
+  {static} +String sendInfo
+  {static} +String transaction
+}
+
+class "vs1::presentation::navigation::navigate.dart::Navigate" {
+  +String initialRoute
+  +Map<String, Widget Function(BuildContext)> route
+}
+
+class "vs1::presentation::session%201::onBoard.dart::OnBoard" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%201::onBoard.dart::OnBoard"
+
+class "vs1::presentation::session%201::onBoard.dart::SubOnBoard" {
+  +State<SubOnBoard> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "vs1::presentation::session%201::onBoard.dart::SubOnBoard"
+
+class "vs1::presentation::session%201::onBoard.dart::_OnBoardState" {
+  -AnimationController _controller
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"vs1::presentation::session%201::onBoard.dart::_OnBoardState" o-- "flutter::src::animation::animation_controller.dart::AnimationController"
+"flutter::src::widgets::framework.dart::State" <|-- "vs1::presentation::session%201::onBoard.dart::_OnBoardState"
+"flutter::src::widgets::ticker_provider.dart::SingleTickerProviderStateMixin" <|-- "vs1::presentation::session%201::onBoard.dart::_OnBoardState"
+
+class "vs1::presentation::session%201::onBoard.dart::BoardItem" {
+  +board Board
+  +Widget build()
+}
+
+"vs1::presentation::session%201::onBoard.dart::BoardItem" o-- "vs1::entity::board.dart::board"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%201::onBoard.dart::BoardItem"
+
+class "vs1::presentation::session%201::onBoard.dart::SignInLabel" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%201::onBoard.dart::SignInLabel"
+
+class "vs1::presentation::session%201::onBoard.dart::GroupButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%201::onBoard.dart::GroupButton"
+
+class "vs1::presentation::session%202::forgot.dart::Forgot" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::forgot.dart::Forgot"
+
+class "vs1::presentation::session%202::forgot.dart::SubForgot" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::forgot.dart::SubForgot"
+
+class "vs1::presentation::session%202::forgot.dart::SignInLabel" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::forgot.dart::SignInLabel"
+
+class "vs1::presentation::session%202::forgot.dart::SendOtpButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::forgot.dart::SendOtpButton"
+
+class "vs1::presentation::session%202::forgot.dart::EmailField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::forgot.dart::EmailField"
+
+class "vs1::presentation::session%202::new_password.dart::NewPassword" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::new_password.dart::NewPassword"
+
+class "vs1::presentation::session%202::new_password.dart::SubNewPassword" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::new_password.dart::SubNewPassword"
+
+class "vs1::presentation::session%202::new_password.dart::PasswordField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::new_password.dart::PasswordField"
+
+class "vs1::presentation::session%202::new_password.dart::ConfirmPasswordField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::new_password.dart::ConfirmPasswordField"
+
+class "vs1::presentation::session%202::new_password.dart::LoginButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::new_password.dart::LoginButton"
+
+class "vs1::presentation::session%202::otp_verify.dart::OtpVerify" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::OtpVerify"
+
+class "vs1::presentation::session%202::otp_verify.dart::SubOtpVerify" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::SubOtpVerify"
+
+class "vs1::presentation::session%202::otp_verify.dart::SetNewPasswordButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::SetNewPasswordButton"
+
+class "vs1::presentation::session%202::otp_verify.dart::reSend" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::reSend"
+
+class "vs1::presentation::session%202::otp_verify.dart::OtpFields" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::OtpFields"
+
+class "vs1::presentation::session%202::otp_verify.dart::ItemOtp" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::ItemOtp"
+
+class "vs1::presentation::session%202::otp_verify.dart::Field" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::otp_verify.dart::Field"
+
+class "vs1::presentation::session%202::sign_in.dart::SignInWidget" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::SignInWidget"
+
+class "vs1::presentation::session%202::sign_in.dart::SubSignIn" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::SubSignIn"
+
+class "vs1::presentation::session%202::sign_in.dart::SignUpLabel" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::SignUpLabel"
+
+class "vs1::presentation::session%202::sign_in.dart::GoogleAuth" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::GoogleAuth"
+
+class "vs1::presentation::session%202::sign_in.dart::ForgotPassword" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::ForgotPassword"
+
+class "vs1::presentation::session%202::sign_in.dart::PasswordField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::PasswordField"
+
+class "vs1::presentation::session%202::sign_in.dart::LoginButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::LoginButton"
+
+class "vs1::presentation::session%202::sign_in.dart::EmailField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_in.dart::EmailField"
+
+class "vs1::presentation::session%202::sign_up.dart::SignUp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::SignUp"
+
+class "vs1::presentation::session%202::sign_up.dart::SubSignUp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::SubSignUp"
+
+class "vs1::presentation::session%202::sign_up.dart::GoogleAuth" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::GoogleAuth"
+
+class "vs1::presentation::session%202::sign_up.dart::SignIn" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::SignIn"
+
+class "vs1::presentation::session%202::sign_up.dart::Terms" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::Terms"
+
+class "vs1::presentation::session%202::sign_up.dart::SignUpButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::SignUpButton"
+
+class "vs1::presentation::session%202::sign_up.dart::NameField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::NameField"
+
+class "vs1::presentation::session%202::sign_up.dart::PhoneField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::PhoneField"
+
+class "vs1::presentation::session%202::sign_up.dart::EmailField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::EmailField"
+
+class "vs1::presentation::session%202::sign_up.dart::PasswordField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::PasswordField"
+
+class "vs1::presentation::session%202::sign_up.dart::ConfirmPasswordField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%202::sign_up.dart::ConfirmPasswordField"
+
+class "vs1::presentation::session%203::home.dart::Home" {
+  +int index
+  +State<Home> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "vs1::presentation::session%203::home.dart::Home"
+
+class "vs1::presentation::session%203::home.dart::_HomeState" {
+  +int selectedIndex
+  +List<Widget> pages
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "vs1::presentation::session%203::home.dart::_HomeState"
+
+class "vs1::presentation::session%203::profile_page.dart::ProfilePage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::ProfilePage"
+
+class "vs1::presentation::session%203::profile_page.dart::SubProfilePage" {
+  +dynamic child
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::SubProfilePage"
+
+class "vs1::presentation::session%203::profile_page.dart::DarkMode" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::DarkMode"
+
+class "vs1::presentation::session%203::profile_page.dart::MiniProfile" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::MiniProfile"
+
+class "vs1::presentation::session%203::profile_page.dart::Avatar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::Avatar"
+
+class "vs1::presentation::session%203::profile_page.dart::Services" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::Services"
+
+class "vs1::presentation::session%203::profile_page.dart::ServiceItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::profile_page.dart::ServiceItem"
+
+class "vs1::presentation::session%203::transcation.dart::Transaction" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::transcation.dart::Transaction"
+
+class "vs1::presentation::session%203::transcation.dart::SubTransaction" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::transcation.dart::SubTransaction"
+
+class "vs1::presentation::session%203::transcation.dart::BackButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::transcation.dart::BackButton"
+
+class "vs1::presentation::session%203::transcation.dart::TrackButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%203::transcation.dart::TrackButton"
+
+class "vs1::presentation::session%204::check_send_info.dart::CheckInfo" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::CheckInfo"
+
+class "vs1::presentation::session%204::check_send_info.dart::SubCheckInfo" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::SubCheckInfo"
+
+class "vs1::presentation::session%204::check_send_info.dart::GroupButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::GroupButton"
+
+class "vs1::presentation::session%204::check_send_info.dart::ReportButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::ReportButton"
+
+class "vs1::presentation::session%204::check_send_info.dart::PackageInformation" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::PackageInformation"
+
+class "vs1::presentation::session%204::check_send_info.dart::Charges" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::Charges"
+
+class "vs1::presentation::session%204::check_send_info.dart::Destinations" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::Destinations"
+
+class "vs1::presentation::session%204::check_send_info.dart::DestinationsItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::DestinationsItem"
+
+class "vs1::presentation::session%204::check_send_info.dart::SuccesfultButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::check_send_info.dart::SuccesfultButton"
+
+class "vs1::presentation::session%204::delivery_success.dart::SuccessDelivery" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::delivery_success.dart::SuccessDelivery"
+
+class "vs1::presentation::session%204::delivery_success.dart::SubSuccessDelivery" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::delivery_success.dart::SubSuccessDelivery"
+
+class "vs1::presentation::session%204::delivery_success.dart::Feedback" {
+  +TextEditingController controller
+  +Widget build()
+}
+
+"vs1::presentation::session%204::delivery_success.dart::Feedback" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::delivery_success.dart::Feedback"
+
+class "vs1::presentation::session%204::delivery_success.dart::DoneButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::delivery_success.dart::DoneButton"
+
+class "vs1::presentation::session%204::payment_method.dart::PaymentMethod" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::PaymentMethod"
+
+class "vs1::presentation::session%204::payment_method.dart::SubPayment" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::SubPayment"
+
+class "vs1::presentation::session%204::payment_method.dart::Payment" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::Payment"
+
+class "vs1::presentation::session%204::payment_method.dart::WalletPay" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::WalletPay"
+
+class "vs1::presentation::session%204::payment_method.dart::CardPay" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::CardPay"
+
+class "vs1::presentation::session%204::payment_method.dart::FirstCard" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::FirstCard"
+
+class "vs1::presentation::session%204::payment_method.dart::SecondCard" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::SecondCard"
+
+class "vs1::presentation::session%204::payment_method.dart::ProceedButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::payment_method.dart::ProceedButton"
+
+class "vs1::presentation::session%204::track_page.dart::TrackPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::TrackPage"
+
+class "vs1::presentation::session%204::track_page.dart::SubTrack" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::SubTrack"
+
+class "vs1::presentation::session%204::track_page.dart::ViewPackageInfoButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::ViewPackageInfoButton"
+
+class "vs1::presentation::session%204::track_page.dart::ProgressItemStage4" {
+  +Stage stage
+  +Widget build()
+}
+
+"vs1::presentation::session%204::track_page.dart::ProgressItemStage4" o-- "vs1::entity::stage.dart::Stage"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::ProgressItemStage4"
+
+class "vs1::presentation::session%204::track_page.dart::ProgressItemStage2" {
+  +Stage stage
+  +Widget build()
+}
+
+"vs1::presentation::session%204::track_page.dart::ProgressItemStage2" o-- "vs1::entity::stage.dart::Stage"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::ProgressItemStage2"
+
+class "vs1::presentation::session%204::track_page.dart::ProgressItemStage3" {
+  +Stage stage
+  +Widget build()
+}
+
+"vs1::presentation::session%204::track_page.dart::ProgressItemStage3" o-- "vs1::entity::stage.dart::Stage"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::ProgressItemStage3"
+
+class "vs1::presentation::session%204::track_page.dart::ProgressItemStage1" {
+  +Stage stage
+  +Widget build()
+}
+
+"vs1::presentation::session%204::track_page.dart::ProgressItemStage1" o-- "vs1::entity::stage.dart::Stage"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::track_page.dart::ProgressItemStage1"
+
+class "vs1::presentation::session%204::wallet_page.dart::WalletPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::WalletPage"
+
+class "vs1::presentation::session%204::wallet_page.dart::SubWalletPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::SubWalletPage"
+
+class "vs1::presentation::session%204::wallet_page.dart::Transaction" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::Transaction"
+
+class "vs1::presentation::session%204::wallet_page.dart::TransactionList" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::TransactionList"
+
+class "vs1::presentation::session%204::wallet_page.dart::TransactionItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::TransactionItem"
+
+class "vs1::presentation::session%204::wallet_page.dart::TopUp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::TopUp"
+
+class "vs1::presentation::session%204::wallet_page.dart::MiniProfile" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::MiniProfile"
+
+class "vs1::presentation::session%204::wallet_page.dart::Avatar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%204::wallet_page.dart::Avatar"
+
+class "vs1::presentation::session%205::call_rider.dart::CallRider" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::call_rider.dart::CallRider"
+
+class "vs1::presentation::session%205::call_rider.dart::SubCallRider" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::call_rider.dart::SubCallRider"
+
+class "vs1::presentation::session%205::call_rider.dart::Avatar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::call_rider.dart::Avatar"
+
+class "vs1::presentation::session%205::call_rider.dart::NumberPanel" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::call_rider.dart::NumberPanel"
+
+class "vs1::presentation::session%205::chats.dart::Chats" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chats.dart::Chats"
+
+class "vs1::presentation::session%205::chats.dart::SubChats" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chats.dart::SubChats"
+
+class "vs1::presentation::session%205::chats.dart::SearchField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chats.dart::SearchField"
+
+class "vs1::presentation::session%205::chats.dart::ListChat" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chats.dart::ListChat"
+
+class "vs1::presentation::session%205::chats.dart::ChatItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chats.dart::ChatItem"
+
+class "vs1::presentation::session%205::chat_rider.dart::ChatRider" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::ChatRider"
+
+class "vs1::presentation::session%205::chat_rider.dart::SubChatRider" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::SubChatRider"
+
+class "vs1::presentation::session%205::chat_rider.dart::ChatWidget" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::ChatWidget"
+
+class "vs1::presentation::session%205::chat_rider.dart::ChatWidgetItem" {
+  +int index
+  +List<Message> list
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::ChatWidgetItem"
+
+class "vs1::presentation::session%205::chat_rider.dart::ChatTab" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::ChatTab"
+
+class "vs1::presentation::session%205::chat_rider.dart::ChatField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::chat_rider.dart::ChatField"
+
+class "vs1::presentation::session%205::home_page.dart::HomePage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::HomePage"
+
+class "vs1::presentation::session%205::home_page.dart::SubHomePage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::SubHomePage"
+
+class "vs1::presentation::session%205::home_page.dart::Adds" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::Adds"
+
+class "vs1::presentation::session%205::home_page.dart::TechAdd" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::TechAdd"
+
+class "vs1::presentation::session%205::home_page.dart::BoxedAdd" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::BoxedAdd"
+
+class "vs1::presentation::session%205::home_page.dart::Specials" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::Specials"
+
+class "vs1::presentation::session%205::home_page.dart::SearchField" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::SearchField"
+
+class "vs1::presentation::session%205::home_page.dart::Cards" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::Cards"
+
+class "vs1::presentation::session%205::home_page.dart::CardsItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::CardsItem"
+
+class "vs1::presentation::session%205::home_page.dart::ProfileInfo" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::home_page.dart::ProfileInfo"
+
+class "vs1::presentation::session%205::notificate.dart::NotificationScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::notificate.dart::NotificationScreen"
+
+class "vs1::presentation::session%205::send_package.dart::SendPackage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::SendPackage"
+
+class "vs1::presentation::session%205::send_package.dart::SubSendPackage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::SubSendPackage"
+
+class "vs1::presentation::session%205::send_package.dart::Delivery" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::Delivery"
+
+class "vs1::presentation::session%205::send_package.dart::InstantDelivery" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::InstantDelivery"
+
+class "vs1::presentation::session%205::send_package.dart::ScheduledDelivery" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::ScheduledDelivery"
+
+class "vs1::presentation::session%205::send_package.dart::OriginDetails" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::OriginDetails"
+
+class "vs1::presentation::session%205::send_package.dart::Package" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::Package"
+
+class "vs1::presentation::session%205::send_package.dart::PackageItems" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::PackageItems"
+
+class "vs1::presentation::session%205::send_package.dart::Weight" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::Weight"
+
+class "vs1::presentation::session%205::send_package.dart::Worth" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::Worth"
+
+class "vs1::presentation::session%205::send_package.dart::AddDestination" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::AddDestination"
+
+class "vs1::presentation::session%205::send_package.dart::Destination" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::Destination"
+
+class "vs1::presentation::session%205::send_package.dart::DestinationItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::DestinationItem"
+
+class "vs1::presentation::session%205::send_package.dart::DestinationAddress" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::DestinationAddress"
+
+class "vs1::presentation::session%205::send_package.dart::OriginAddress" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::OriginAddress"
+
+class "vs1::presentation::session%205::send_package.dart::OriginState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::OriginState"
+
+class "vs1::presentation::session%205::send_package.dart::DestinationState" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::DestinationState"
+
+class "vs1::presentation::session%205::send_package.dart::OriginPhone" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::OriginPhone"
+
+class "vs1::presentation::session%205::send_package.dart::DestinationPhone" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::DestinationPhone"
+
+class "vs1::presentation::session%205::send_package.dart::OriginOthers" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::OriginOthers"
+
+class "vs1::presentation::session%205::send_package.dart::DestinationOthers" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package.dart::DestinationOthers"
+
+class "vs1::presentation::session%205::send_package_info.dart::SendPackageInfo" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::SendPackageInfo"
+
+class "vs1::presentation::session%205::send_package_info.dart::SubSendPackageinfo" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::SubSendPackageinfo"
+
+class "vs1::presentation::session%205::send_package_info.dart::PackageInformation" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::PackageInformation"
+
+class "vs1::presentation::session%205::send_package_info.dart::GroupButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::GroupButton"
+
+class "vs1::presentation::session%205::send_package_info.dart::EditButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::EditButton"
+
+class "vs1::presentation::session%205::send_package_info.dart::PaymentButton" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::PaymentButton"
+
+class "vs1::presentation::session%205::send_package_info.dart::Charges" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::Charges"
+
+class "vs1::presentation::session%205::send_package_info.dart::Destinations" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::Destinations"
+
+class "vs1::presentation::session%205::send_package_info.dart::DestinationsItem" {
+  +int index
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "vs1::presentation::session%205::send_package_info.dart::DestinationsItem"
+
+abstract class "vs1::presentation::style::colors.dart::colors" {
+  {static} +Color main
+  {static} +Color text4
+  {static} +Color gray2
+  {static} +Color black
+  {static} +Color gray1
+  {static} +Color grayBlue
+  {static} +Color gray6
+  {static} +Color gray
+  {static} +Color error
+  {static} +Color good
+  {static} +Color primaryDark
+  {static} +Color secondaryDark
+  {static} +Color secondary
+  {static} +Color shadow
+  {static} +Color warning
+}
+
+"vs1::presentation::style::colors.dart::colors" o-- "dart::ui::Color"
+
+abstract class "vs1::presentation::style::fontStyle.dart::fontStyle" {
+  {static} +TextStyle main
+  {static} +TextStyle titleServices
+  {static} +TextStyle littleTitle
+  {static} +TextStyle littleTitleWhite
+  {static} +TextStyle trackId
+  {static} +TextStyle activeTrackId
+  {static} +TextStyle titleInfo
+  {static} +TextStyle title
+  {static} +TextStyle titleProfile
+  {static} +TextStyle hint
+  {static} +TextStyle hintSend
+  {static} +TextStyle description
+  {static} +TextStyle activeDescription
+  {static} +TextStyle titleCall
+  {static} +TextStyle titleNumber
+  {static} +TextStyle hintSecondary
+  {static} +TextStyle specialSecondary
+  {static} +TextStyle field
+  {static} +TextStyle labelBoard
+  {static} +TextStyle labelBoardWhite
+  {static} +TextStyle titleLabel
+  {static} +TextStyle appBarTitle
+  {static} +TextStyle skipBoard
+  {static} +TextStyle plus
+  {static} +TextStyle minus
+  {static} +TextStyle labelGreyBoard
+  {static} +TextStyle otpLabel
+  {static} +TextStyle termsLabel
+  {static} +TextStyle serviceLabel
+  {static} +TextStyle labelBlack
+  {static} +TextStyle labelGrayBlue
+  {static} +TextStyle bigLabelBlack
+  {static} +TextStyle termsLabelWarning
+  {static} +TextStyle label
+  {static} +TextStyle mainLabel
+  {static} +TextStyle bottomLabelActive
+  {static} +TextStyle labelGreyBoardMedium
+  {static} +TextStyle timeLabel
+  {static} +TextStyle timeLabelResend
+  {static} +TextStyle nextBoard
+  {static} +TextStyle titleLabelWhite
+  {static} +TextStyle titleLabelPrimary
+  {static} +TextStyle titleLabelMain
+  {static} +TextStyle titleBanner
+  {static} +TextStyle labelTransaction
+  {static} +TextStyle titleDelivery
+  {static} +TextStyle labelWhite
+  {static} +TextStyle countMsg
+  {static} +TextStyle myMsg
+}
+
+"vs1::presentation::style::fontStyle.dart::fontStyle" o-- "flutter::src::painting::text_style.dart::TextStyle"
+
+class "vs1::presentation::style::themeclass.dart::ThemeClass" {
+  {static} +ThemeData lightTheme
+  {static} +ThemeData darkTheme
+}
+
+"vs1::presentation::style::themeclass.dart::ThemeClass" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+class "vs1::repository::queue_save.dart::QueueSave" {
+  +dynamic load()
+  +dynamic unLoad()
+}
+
+class "vs1::repository::supabase_service.dart::SupaBaseService" {
+  +SupabaseClient supabase
+  +dynamic signUp()
+  +dynamic signIn()
+  +dynamic forgotPassword()
+  +dynamic newPassword()
+  +dynamic logOut()
+  +dynamic sendFeedback()
+  +dynamic getPackage()
+  +dynamic getProfile()
+  +dynamic makePayment()
+  +dynamic addTransaction()
+  +dynamic sendMessage()
+  +dynamic googleSignIn()
+  +dynamic getProfiles()
+  +Stream<List<Message>> getAllMessages()
+  +dynamic makeRead()
+  +dynamic upLoadImage()
+  +dynamic getImagLink()
+  +dynamic downloadImage()
+  +Stream<List<Stage>> getLastPackage()
+}
+
+"vs1::repository::supabase_service.dart::SupaBaseService" o-- "supabase::src::supabase_client.dart::SupabaseClient"
+
+
+@enduml
+PS D:\AndrodStudio\flutter\vs1> ^C
+PS D:\AndrodStudio\flutter\vs1> dart pub global run dcdg
+@startuml
+set namespaceSeparator ::
+
+class "vs1::domain::board_model.dart::BoardModel" {
+  -QueueSave _queueSave
+  +board item
+  +bool queueEmpty
+  -void _setup()
+  -void _setupList()
+  +void skip()
+  +void next()
+  +void signUp()
+  +void goToHolder()
+  +void goToHome()
+  +void remove()
+}
+
+"vs1::domain::board_model.dart::BoardModel" o-- "vs1::repository::queue_save.dart::QueueSave"
+"vs1::domain::board_model.dart::BoardModel" o-- "vs1::entity::board.dart::board"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::board_model.dart::BoardModel"
+
+class "vs1::domain::call_rider_model.dart::CallRiderModel" {
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::call_rider_model.dart::CallRiderModel"
+
+class "vs1::domain::chats_model.dart::ChatsModel" {
+  +List<Profile> users
+  -List<Profile> _users
+  -void _setup()
+  +List<Message> filterChat()
+  +int countRead()
+  +Stream<List<Message>> getMessages()
+  +void searchChat()
+  +void goToChatRider()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::chats_model.dart::ChatsModel"
+
+class "vs1::domain::chat_rider_model.dart::ChatRiderModel" {
+  +Profile profile
+  +Stream<List<Message>>? stream
+  +String msg
+  +TextEditingController controller
+  +ScrollController scrollController
+  +bool hasText
+  -void _setup()
+  +void setRead()
+  +void checkText()
+  +void sendMessage()
+  +Stream<List<Message>> getMessage()
+  +List<Message> filterChat()
+  +void goToCall()
+}
+
+"vs1::domain::chat_rider_model.dart::ChatRiderModel" o-- "vs1::entity::profile.dart::Profile"
+"vs1::domain::chat_rider_model.dart::ChatRiderModel" o-- "dart::async::Stream<List<Message>>"
+"vs1::domain::chat_rider_model.dart::ChatRiderModel" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"vs1::domain::chat_rider_model.dart::ChatRiderModel" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::chat_rider_model.dart::ChatRiderModel"
+
+class "vs1::domain::check_info_model.dart::CheckInfoModel" {
+  +PackageInfo? packageInfo
+  +String uuid
+  +double total
+  +int deliveryCharges
+  +int instantDelivery
+  +double tax
+  -void _setup()
+  +void getPackage()
+  -void _count()
+  +void goToSuccess()
+}
+
+"vs1::domain::check_info_model.dart::CheckInfoModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::check_info_model.dart::CheckInfoModel"
+
+class "vs1::domain::forgot_model.dart::ForgotModel" {
+  +String email
+  +bool emailValid
+  +void setEmail()
+  +void goToOtp()
+  +void goToLogIn()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::forgot_model.dart::ForgotModel"
+
+class "vs1::domain::home_model.dart::HomeModel" {
+  +List<String> routes
+  +String name
+  +int val
+  +Uint8List? image
+  +List<card> cards
+  -void _setup()
+  +void downloadImage()
+  +void setVal()
+  +void goToScreen()
+}
+
+"vs1::domain::home_model.dart::HomeModel" o-- "dart::typed_data::Uint8List"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::home_model.dart::HomeModel"
+
+class "vs1::domain::new_password_model.dart::NewPasswordModel" {
+  +String password
+  +String repeatPassword
+  +bool passwordValid
+  +bool repeatValid
+  +bool isObscurePassword
+  +bool isObscureConfirm
+  +void setObscurePassword()
+  +void setObscureConfirm()
+  +void setPassword()
+  +void setRepeatPassword()
+  +void goToHome()
+  +void newPassword()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::new_password_model.dart::NewPasswordModel"
+
+class "vs1::domain::otp_verify_model.dart::OtpVerifyModel" {
+  -String _otpCode
+  +bool codeValid
+  +List<String> otpList
+  +Timer timer
+  +int time
+  +void countTime()
+  +void resend()
+  +void setCode()
+  +void goToNewPassword()
+}
+
+"vs1::domain::otp_verify_model.dart::OtpVerifyModel" o-- "dart::async::Timer"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::otp_verify_model.dart::OtpVerifyModel"
+
+class "vs1::domain::payment_model.dart::PaymentModel" {
+  +int currentVal
+  +int currentCardVal
+  +void setVal()
+  +void setCardVal()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::payment_model.dart::PaymentModel"
+
+class "vs1::domain::profile_page_model.dart::ProfileModel" {
+  +Profile? profile
+  +Uint8List? image
+  +List<Service> services
+  +bool isObscureBalance
+  +bool saveVal
+  -void _setup()
+  +void uploadImage()
+  +void downloadImage()
+  +void setObscureBalance()
+  +void logOut()
+  +void setVal()
+  +void GoToService()
+  +void getThemeVal()
+  +void GoToLogIn()
+}
+
+"vs1::domain::profile_page_model.dart::ProfileModel" o-- "vs1::entity::profile.dart::Profile"
+"vs1::domain::profile_page_model.dart::ProfileModel" o-- "dart::typed_data::Uint8List"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::profile_page_model.dart::ProfileModel"
+
+class "vs1::domain::send_info_model.dart::SendInfoModel" {
+  +double total
+  +int deliveryCharges
+  +int instantDelivery
+  +double tax
+  -QueueSave _queueSave
+  +PackageInfo packageInfo
+  -void _setup()
+  -void _count()
+  +void makePayment()
+  +dynamic countPosition()
+  +void goToEdit()
+  +void goToTransaction()
+}
+
+"vs1::domain::send_info_model.dart::SendInfoModel" o-- "vs1::repository::queue_save.dart::QueueSave"
+"vs1::domain::send_info_model.dart::SendInfoModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::send_info_model.dart::SendInfoModel"
+
+class "vs1::domain::send_model.dart::SendModel" {
+  +PackageInfo packageInfo
+  +void goToSendInfo()
+  +void addDestination()
+}
+
+"vs1::domain::send_model.dart::SendModel" o-- "vs1::entity::package_info.dart::PackageInfo"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::send_model.dart::SendModel"
+
+class "vs1::domain::sign_in_model.dart::SignInModel" {
+  +String email
+  +String password
+  +bool emailValid
+  +bool isSaved
+  +bool passwordValid
+  +bool isObscurePassword
+  +void setEmail()
+  +void signIn()
+  +void googleLogIn()
+  +void setPassword()
+  +void setObscurePassword()
+  +void goToHome()
+  +void goToSignUp()
+  +void goToForgot()
+  -void _setupCheck()
+  +void setCheck()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::sign_in_model.dart::SignInModel"
+
+class "vs1::domain::sign_up_model.dart::SignUpModel" {
+  +String name
+  +String number
+  +String email
+  +String password
+  +String repeatPassword
+  +String pdfPath
+  +bool nameValid
+  +bool numberValid
+  +bool? emailValid
+  +bool passwordValid
+  +bool repeatValid
+  +bool isChecked
+  +bool isObscurePassword
+  +bool isObscureConfirm
+  -dynamic _setup()
+  +void googleLogIn()
+  +void setName()
+  +void signUp()
+  +void setNumber()
+  +void setEmail()
+  +void setPassword()
+  +void setRepeatPassword()
+  +void setCheck()
+  +void setObscurePassword()
+  +void setObscureConfirm()
+  +void goToLogIn()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::sign_up_model.dart::SignUpModel"
+
+class "vs1::domain::success_delivery_model.dart::SuccessDeliveryModel" {
+  +String body
+  +double turns
+  +List<bool> stars
+  +int time
+  +void setStar()
+  +void deleteStar()
+  +void sendFeedback()
+  -void _setup()
+  -void _changeRotation()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::success_delivery_model.dart::SuccessDeliveryModel"
+
+class "vs1::domain::track_model.dart::TrackModel" {
+  +Completer<YandexMapController> mapController
+  +bool isTrack
+  +String uuid
+  +List<PlacemarkMapObject> placemarks
+  +Stream<List<Stage>>? stream
+  +MyPackage? packageInfo
+  -void _setup()
+  +void getPackage()
+  +Stream<List<Stage>> getStream()
+  -void _setupCash()
+  -void _setupMap()
+  +void goToCheckInfo()
+}
+
+"vs1::domain::track_model.dart::TrackModel" o-- "dart::async::Completer<YandexMapController>"
+"vs1::domain::track_model.dart::TrackModel" o-- "dart::async::Stream<List<Stage>>"
+"vs1::domain::track_model.dart::TrackModel" o-- "vs1::entity::my_package.dart::MyPackage"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::track_model.dart::TrackModel"
+
+class "vs1::domain::transaction_model.dart::TransactionModel" {
+  +double turns
+  +int time
+  +String uuid
+  -void _setup()
+  +void goTrack()
+  -void _changeRotation()
+  +void goToHome()
+  +void getCode()
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::transaction_model.dart::TransactionModel"
+
+class "vs1::domain::wallet_model.dart::WalletModel" {
+  +Profile? profile
+  +List<TransactionClass> transactions
+  +bool isObscureBalance
+  +List<TransactionHistory> history
+  +void setObscureBalance()
+  +void goToPayment()
+  -void _setup()
+}
+
+"vs1::domain::wallet_model.dart::WalletModel" o-- "vs1::entity::profile.dart::Profile"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::domain::wallet_model.dart::WalletModel"
+
+class "vs1::entity::board.dart::board" {
+  +String title
+  +String label
+  +String picture
+  +double width
+  +double height
+  +int hashCode
+  +Map<String, dynamic> toMap()
+  +String toJson()
+  +bool ==()
+}
+
+class "vs1::entity::card.dart::card" {
+  +String picture
+  +String title
+  +String label
+}
+
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "vs1::entity::card.dart::card"
+
+class "vs1::entity::details.dart::Details" {
+  +String address
+  +String state
+  +String number
+  +String others
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::history.dart::TransactionHistory" {
+  +String price
+  +String created_at
+  +String date
+  +String body
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::location.dart::MyLocation" {
+  +OriginLocate location
+  +List<OriginLocate> locations
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::location.dart::MyLocation" o-- "vs1::entity::origin_locate.dart::OriginLocate"
+
+class "vs1::entity::message.dart::Message" {
+  +int id
+  +String created_at
+  +String content
+  +String userTo
+  +String userFrom
+  +bool isRead
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::my_package.dart::MyPackage" {
+  +Stage stage
+  +int id
+  +String created_at
+  +Details origin_details
+  +List<Details> destination_details
+  +PackageDetails package_details
+  +String uuid
+  +String id_user
+  +MyLocation coordinat
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::stage.dart::Stage"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::details.dart::Details"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::package.dart::PackageDetails"
+"vs1::entity::my_package.dart::MyPackage" o-- "vs1::entity::location.dart::MyLocation"
+
+class "vs1::entity::origin_locate.dart::OriginLocate" {
+  +double lat
+  +double long
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::package.dart::PackageDetails" {
+  +String items
+  +String weight
+  +String worthItems
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::package_info.dart::PackageInfo" {
+  +Details originDetail
+  +List<Details> destinationDetails
+  +PackageDetails package
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+"vs1::entity::package_info.dart::PackageInfo" o-- "vs1::entity::details.dart::Details"
+"vs1::entity::package_info.dart::PackageInfo" o-- "vs1::entity::package.dart::PackageDetails"
+
+class "vs1::entity::profile.dart::Profile" {
+  +int id
+  +String created_at
+  +String user_id
+  +String phone
+  +String name
+  +int balance
+  +String role
+  +List<TransactionHistory> transactions
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::service.dart::Service" {
+  +String picture
+  +String title
+  +String label
+  +String path
+}
+
+class "vs1::entity::stage.dart::Stage" {
+  +String stage
+  +String stage1Time
+  +String stage2Time
+  +String stage3Time
+  +String stage4Time
+  +Map<String, dynamic> toMap()
+  +String toJson()
+}
+
+class "vs1::entity::transaction.dart::TransactionClass" {
+  +double price
+  +String delivery
+  +String date
+}
+
+
+
+class "vs1::repository::queue_save.dart::QueueSave" {
+  +dynamic load()
+  +dynamic unLoad()
+}
+
+class "vs1::repository::supabase_service.dart::SupaBaseService" {
+  +SupabaseClient supabase
+  +dynamic signUp()
+  +dynamic signIn()
+  +dynamic forgotPassword()
+  +dynamic newPassword()
+  +dynamic logOut()
+  +dynamic sendFeedback()
+  +dynamic getPackage()
+  +dynamic getProfile()
+  +dynamic makePayment()
+  +dynamic addTransaction()
+  +dynamic sendMessage()
+  +dynamic googleSignIn()
+  +dynamic getProfiles()
+  +dynamic getClientProfiles()
+  +dynamic getCourierProfiles()
+  +Stream<List<Message>> getMessages()
+  +Stream<List<Message>> getAllMessages()
+  +dynamic makeRead()
+  +dynamic upLoadImage()
+  +dynamic getImagLink()
+  +dynamic downloadImage()
+  +Stream<List<Stage>> getLastPackage()
+}
+
+"vs1::repository::supabase_service.dart::SupaBaseService" o-- "supabase::src::supabase_client.dart::SupabaseClient"
+
+
+@enduml

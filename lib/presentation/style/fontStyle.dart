@@ -94,7 +94,7 @@ abstract class fontStyle {
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w500);
   static TextStyle labelBoard = TextStyle(
-      fontSize: 16.sp,
+      fontSize: 14.sp,
       color: colors.text4,
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w400);
